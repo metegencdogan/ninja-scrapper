@@ -1,7 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import { getEmployees } from './service/scrapper'
 const app: Application = express()
-const PORT: number = 3000
+const PORT: number = 5000 
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).send(`app is running on  ${PORT}`)
@@ -15,5 +15,4 @@ app.get('/employees', async (req: Request, res: Response) => {
     res.status(200).send(data)
   )
 })
-
 app.listen(PORT)
