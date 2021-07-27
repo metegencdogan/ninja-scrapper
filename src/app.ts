@@ -1,10 +1,10 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import { getEmployees } from './service/scrapper'
 const app: Application = express()
-const PORT: number = 5000 
+// const _PORT: string | number = process.env.PORT | 5000
 
 app.get('/', (req: Request, res: Response) => {
-  res.status(200).send(`app is running on  ${PORT}`)
+  res.status(200).send(`app is running on`)
 })
 
 app.get('/employees', async (req: Request, res: Response) => {
@@ -15,4 +15,4 @@ app.get('/employees', async (req: Request, res: Response) => {
     res.status(200).send(data)
   )
 })
-app.listen(PORT)
+app.listen(process.env.PORT)
