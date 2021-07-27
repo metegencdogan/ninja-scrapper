@@ -18,28 +18,15 @@ const cheerio_1 = __importDefault(require("cheerio"));
 const ninja_1 = require("../model/ninja");
 const getEmployees = (nameQuery = '', sort = 'ASC', officeQuery = '') => __awaiter(void 0, void 0, void 0, function* () {
     let employees = [];
-    let employee;
-    yield request_promise_1.default('https://tretton37.com/meet', (error, response, html) => {
+    const URL = 'https://tretton37.com/meet';
+    yield request_promise_1.default(URL, (error, response, html) => {
         if (!error && response.statusCode == 200) {
             const $ = cheerio_1.default.load(html);
             const info = $('.ninja-summary');
             info.each((i, data) => {
-                const office = $(data)
-                    .find('.contact-info')
-                    .find('h1')
-                    .find('a')
-                    .find('span')
-                    .text();
-                const name = $(data)
-                    .find('.contact-info')
-                    .find('h1')
-                    .find('a')
-                    .text()
-                    .replace(office, '');
-                const imgUrl = $(data)
-                    .find('a')
-                    .find('img')
-                    .attr('src');
+                const office = getOffice($, data);
+                const name = getName($, data, office);
+                const imgUrl = getImgUrl($, data);
                 employees.push(new ninja_1.Ninja(name, office, imgUrl));
             });
             if (nameQuery != '') {
@@ -66,4 +53,25 @@ const filterByOffice = (ninjas, office) => {
         return ninja.getOffice.includes(office);
     });
 };
-// module.exports = { getEmployees }
+const getOffice = ($, data) => {
+    return $(data)
+        .find('.contact-info')
+        .find('h1')
+        .find('a')
+        .find('span')
+        .text();
+};
+const getName = ($, data, office) => {
+    return $(data)
+        .find('.contact-info')
+        .find('h1')
+        .find('a')
+        .text()
+        .replace(office, '');
+};
+const getImgUrl = ($, data) => {
+    return $(data)
+        .find('a')
+        .find('img')
+        .attr('src');
+};

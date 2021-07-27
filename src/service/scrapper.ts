@@ -53,7 +53,7 @@ const getOffice = ($: CheerioAPI, data: any): string => {
     .find('h1')
     .find('a')
     .find('span')
-    .text()
+    .text()!
 }
 
 const getName = ($: CheerioAPI, data: any, office: string): string => {
@@ -62,13 +62,12 @@ const getName = ($: CheerioAPI, data: any, office: string): string => {
     .find('h1')
     .find('a')
     .text()
-    .replace(office, '')
+    .replace(office, '')!
 }
 
 const getImgUrl = ($: CheerioAPI, data: any): string => {
   return $(data)
     .find('a')
     .find('img')
-    .attr('src')
+    .attr('src')!
 }
-// module.exports = { getEmployees }
